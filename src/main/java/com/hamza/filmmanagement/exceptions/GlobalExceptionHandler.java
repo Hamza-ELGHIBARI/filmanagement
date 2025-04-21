@@ -2,6 +2,7 @@ package com.hamza.filmmanagement.exceptions;
 
 import com.hamza.filmmanagement.dto.ApiResponse;
 import com.hamza.filmmanagement.exceptions.actor.ActorNotFoundException;
+import com.hamza.filmmanagement.exceptions.actor.ActorRefencedByFilmException;
 import com.hamza.filmmanagement.exceptions.auth.*;
 import com.hamza.filmmanagement.exceptions.director.DirectorNotFoundException;
 import com.hamza.filmmanagement.exceptions.email.SendingEmailException;
@@ -83,10 +84,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ActorRefencedByFilmException.class)
+    public ResponseEntity<ApiResponse> handleActorRefencedByFilmException(ActorRefencedByFilmException ex) {
+        ApiResponse response = new ApiResponse("Error", ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(AccountIsNotEnabledException.class)
     public ResponseEntity<ApiResponse> handleAccountIsNotEnabledException(AccountIsNotEnabledException ex) {
         ApiResponse response = new ApiResponse("Error", ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(RuntimeException.class)

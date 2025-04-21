@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class FilmRequest {
+public class CreateFilmRequest {
 
     @NotBlank(message = "Title is required")
     private String title;

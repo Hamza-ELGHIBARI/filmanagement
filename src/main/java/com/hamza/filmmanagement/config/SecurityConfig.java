@@ -14,6 +14,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 // Indique que cette classe est une classe de configuration Spring.
 // Elle remplace les fichiers XML de configuration.
@@ -56,12 +61,13 @@ public class SecurityConfig {
         return http
                 // Désactive la protection CSRF (utile pour les APIs REST où le token est déjà sécurisé)
                 .csrf(csrf -> csrf.disable())
-
+                .cors(cors ->{})
                 // Configuration des règles d’autorisation selon les routes
                 .authorizeHttpRequests(auth -> auth
                         // Autorise librement l’accès aux routes d’authentification (login, register, etc.)
                         .requestMatchers("/auth/**").permitAll()
-
+                        .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/admin/films").permitAll()
                         // Restreint l’accès aux routes d’administration aux utilisateurs avec le rôle ADMIN
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
 
@@ -75,6 +81,18 @@ public class SecurityConfig {
 
                 // Construit la chaîne de filtres de sécurité
                 .build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
 }

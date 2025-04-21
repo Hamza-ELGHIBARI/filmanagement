@@ -44,7 +44,7 @@ public class ActorController {
 
     // Route HTTP PUT pour modifier un acteur existant (basé sur son id)
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> updateActor(@PathVariable Long id, @RequestBody ActorRequest request) {
+    public ResponseEntity<ApiResponse<String>> updateActor(@PathVariable Long id,@Valid @RequestBody ActorRequest request) {
         // On crée un objet actor de type Actor à partir de la requete entrante
         Actor actor = new Actor();
         actor.setFirstName(request.getFirstName());
@@ -73,5 +73,12 @@ public class ActorController {
     public ResponseEntity<List<Actor>> getAllActors() {
         // On récupère la liste des acteurs depuis le service, et on la retourne directement
         return ResponseEntity.ok(actorService.getAllActors());
+    }
+
+    @GetMapping("/{id}")
+    public Actor getActorById(@PathVariable Long id) {
+        Actor actor = actorService.getActorById(id);
+        return actor;
+
     }
 }

@@ -2,6 +2,7 @@ package com.hamza.filmmanagement.controllers;
 
 import com.hamza.filmmanagement.dto.ApiResponse;
 import com.hamza.filmmanagement.dto.DirectorRequest;
+import com.hamza.filmmanagement.entities.Actor;
 import com.hamza.filmmanagement.entities.Director;
 import com.hamza.filmmanagement.services.DirectorService;
 import jakarta.validation.Valid;
@@ -61,4 +62,5 @@ public class DirectorController {
     public ResponseEntity<Director> getDirectorById(@PathVariable Long id) {
         return ResponseEntity.ok(directorService.getDirectorById(id));
     }
+
 }

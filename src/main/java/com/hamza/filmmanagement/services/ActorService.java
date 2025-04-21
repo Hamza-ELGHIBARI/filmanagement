@@ -2,7 +2,9 @@ package com.hamza.filmmanagement.services;
 
 import com.hamza.filmmanagement.entities.Actor;
 import com.hamza.filmmanagement.exceptions.actor.ActorNotFoundException;
+import com.hamza.filmmanagement.exceptions.actor.ActorRefencedByFilmException;
 import com.hamza.filmmanagement.repositories.ActorRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,7 +47,12 @@ public class ActorService {
     // Méthode permettant de supprimer un acteur de la base de données en utilisant son identifiant.
     public void deleteActor(Long id) {
         // Suppression de l'acteur à l'aide de son identifiant.
-        actorRepository.deleteById(id);
+        try {
+            actorRepository.deleteById(id);
+        } catch (DataIntegrityViolationException ex) {
+            throw new ActorRefencedByFilmException("Cannot delete actor: still referenced by one or more films");
+        }
+
     }
 
     // Méthode permettant de récupérer la liste de tous les acteurs.
@@ -53,5 +60,10 @@ public class ActorService {
     public List<Actor> getAllActors() {
         // La méthode 'findAll' de JpaRepository permet de récupérer tous les enregistrements d'acteurs.
         return actorRepository.findAll();
+    }
+
+    public Actor getActorById(Long id) {
+         Actor actor= actorRepository.findById(id).orElseThrow(() -> new ActorNotFoundException("Actor not found"));
+         return actor;
     }
 }

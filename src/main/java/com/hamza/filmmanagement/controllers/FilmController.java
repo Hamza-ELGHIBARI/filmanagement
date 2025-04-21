@@ -1,7 +1,8 @@
 package com.hamza.filmmanagement.controllers;
 
 import com.hamza.filmmanagement.dto.ApiResponse;
-import com.hamza.filmmanagement.dto.FilmRequest;
+import com.hamza.filmmanagement.dto.CreateFilmRequest;
+import com.hamza.filmmanagement.dto.UpdateFilmRequest;
 import com.hamza.filmmanagement.entities.Film;
 import com.hamza.filmmanagement.services.ActorService;
 import com.hamza.filmmanagement.services.FilmService;
@@ -35,7 +36,7 @@ public class FilmController {
     @PostMapping
     public ResponseEntity<ApiResponse<String>> addFilm(
             // Utilisation de @ModelAttribute pour recevoir les données multipart (formulaire + fichier)
-            @Valid @ModelAttribute FilmRequest request) throws IOException {
+            @Valid @ModelAttribute CreateFilmRequest request) throws IOException {
 
         // Appel au service pour sauvegarder le film avec tous ses attributs
         filmService.saveFilm(
@@ -54,7 +55,7 @@ public class FilmController {
     // === Modifier un film existant ===
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> updateFilm(@PathVariable Long id,
-                                                          @Valid @ModelAttribute FilmRequest request) throws IOException {
+                                                          @Valid @ModelAttribute UpdateFilmRequest request) throws IOException {
         // Appel au service pour mettre à jour le film avec les nouvelles infos
         filmService.updateFilm(id, request.getTitle(),
                 request.getDescription(),

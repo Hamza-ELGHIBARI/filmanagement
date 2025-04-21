@@ -79,7 +79,8 @@ public class AuthService {
         userRepository.save(user);
 
         // Générer le lien d'activation
-        String activationLink = "http://localhost:8080/auth/activate?token=" + user.getActivationToken();
+        String activationLink = "http://localhost:4200/auth/activate-account?token=" + user.getActivationToken();
+
 
         // Charger et personnaliser le modèle d'email
         Map<String, String> emailVariables = Map.of("activationLink", activationLink);
@@ -143,7 +144,7 @@ public class AuthService {
         userRepository.save(user);
 
         // Générer le lien de réinitialisation
-        String resetLink = "http://localhost:8080/auth/reset-password?token=" + resetToken;
+        String resetLink = "http://localhost:4200/auth/reset-password?token=" + resetToken;
 
         // Charger et personnaliser le modèle d'email
         Map<String, String> emailVariables = Map.of("resetLink", resetLink);
