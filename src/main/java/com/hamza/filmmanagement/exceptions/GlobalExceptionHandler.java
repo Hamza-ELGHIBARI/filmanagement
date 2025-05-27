@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ActorNotFoundException.class)
     public ResponseEntity<ApiResponse> handleActorNotFoundException(ActorNotFoundException ex) {
         ApiResponse response = new ApiResponse("Error", ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(DirectorNotFoundException.class)
@@ -86,7 +86,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ActorRefencedByFilmException.class)
     public ResponseEntity<ApiResponse> handleActorRefencedByFilmException(ActorRefencedByFilmException ex) {
-        ApiResponse response = new ApiResponse("Error", ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+        ApiResponse response = new ApiResponse("Error", ex.getMessage(), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 

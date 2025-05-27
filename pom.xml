@@ -93,12 +93,23 @@
 			<artifactId>spring-boot-starter-test</artifactId> <!-- Starter pour les tests avec Spring Boot -->
 			<scope>test</scope> <!-- La dépendance est utilisée uniquement pour les tests -->
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 
 		<!-- Apache Commons Lang3 (fournit des utilitaires pour les opérations sur des objets, des chaînes, etc.) -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.12.0</version> <!-- Version de Commons Lang3 -->
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
@@ -111,7 +122,22 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId> <!-- Plugin pour packager et exécuter l'application Spring Boot via Maven -->
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>3.1.2</version>
+				<executions>
+					<execution>
+						<id>integration-tests</id>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
+
 	</build>
 
 </project>

@@ -2,11 +2,16 @@ package com.hamza.filmmanagement.repositories;
 
 import com.hamza.filmmanagement.entities.Actor;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository // Cette annotation indique à Spring que cette interface est un composant DAO (Data Access Object) et qu'elle est responsable de l'accès aux données. Spring va automatiquement gérer cette interface comme un bean de type repository.
 public interface ActorRepository extends JpaRepository<Actor, Long> {
 
+
+    @Query("SELECT COUNT(f) FROM Film f JOIN f.actors a WHERE a.id = :actorId")
+    long countFilmsByActorId(@Param("actorId") Long actorId);
     // JpaRepository fournit des méthodes de gestion de base de données sans avoir à les implémenter manuellement.
     // Cette interface étend JpaRepository, qui est une interface de Spring Data JPA, permettant d'effectuer des opérations CRUD (Create, Read, Update, Delete) de manière simple et sans code supplémentaire.
 

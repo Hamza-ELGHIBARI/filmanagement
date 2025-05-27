@@ -6,6 +6,7 @@ import com.hamza.filmmanagement.exceptions.actor.ActorRefencedByFilmException;
 import com.hamza.filmmanagement.repositories.ActorRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -46,13 +47,11 @@ public class ActorService {
 
     // Méthode permettant de supprimer un acteur de la base de données en utilisant son identifiant.
     public void deleteActor(Long id) {
-        // Suppression de l'acteur à l'aide de son identifiant.
         try {
             actorRepository.deleteById(id);
         } catch (DataIntegrityViolationException ex) {
             throw new ActorRefencedByFilmException("Cannot delete actor: still referenced by one or more films");
         }
-
     }
 
     // Méthode permettant de récupérer la liste de tous les acteurs.
